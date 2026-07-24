@@ -4,13 +4,9 @@
 
 { config, pkgs, lib, ... }:
 
-let
-  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz;
-in
 {
   imports =
     [
-      (import "${home-manager}/nixos")
       ./hardware-configuration.nix
     ];
 
@@ -108,9 +104,12 @@ in
     programs.zoxide.enable = true;
     programs.bat.enable = true;
     programs.atuin.enable = true;
+    programs.lazygit.enable = true;
+    programs.eza.enable = true;
 
     programs.bash.shellAliases = {
       ls = "${pkgs.eza}/bin/eza --icons";
+      lg = "${pkgs.lazygit}/bin/lazygit";
       l = "${pkgs.eza}/bin/eza -lah --icons";
       ll = "${pkgs.eza}/bin/eza -l --icons";
       la = "${pkgs.eza}/bin/eza -a --icons";
@@ -147,13 +146,13 @@ in
     fastfetch
     brave
     xclip
-    nh
+    # nh
     nvd
     nix-output-monitor
     tmux
     # fzf
     # zoxide
-    # eza
+    eza
     ripgrep
     lazygit
     xh
@@ -169,6 +168,11 @@ in
    nerd-fonts.symbols-only  # Essential for icon rendering
    monaspace
   ];
+
+  programs.nh = {
+   enable = true;
+   flake = "/home/pops/.config/nixos"; # Path to your flake directory
+  };
 
   programs.neovim = {
    enable = true;
