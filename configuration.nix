@@ -108,13 +108,13 @@
     programs.eza.enable = true;
 
     programs.bash.shellAliases = {
-      ls = "${pkgs.eza}/bin/eza --icons";
+      ls = "${pkgs.eza}/bin/eza --icons always";
       lg = "${pkgs.lazygit}/bin/lazygit";
-      l = "${pkgs.eza}/bin/eza -lah --icons";
-      ll = "${pkgs.eza}/bin/eza -l --icons";
-      la = "${pkgs.eza}/bin/eza -a --icons";
-      lt = "${pkgs.eza}/bin/eza --tree --icons";
-      lla = "${pkgs.eza}/bin/eza -la --icons";
+      l = "${pkgs.eza}/bin/eza -lah --icons always";
+      ll = "${pkgs.eza}/bin/eza -l --icons always";
+      la = "${pkgs.eza}/bin/eza -a --icons always";
+      lt = "${pkgs.eza}/bin/eza --tree --icons always";
+      lla = "${pkgs.eza}/bin/eza -la --icons always";
     };
 
 
@@ -140,6 +140,7 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
     ghostty
+    gh
     nushell
     jq
     tmux
