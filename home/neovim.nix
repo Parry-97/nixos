@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
   programs.neovim = {
@@ -42,6 +42,7 @@
   };
 
   # OPTIONAL: If you want Home Manager to manage your ~/.config/nvim folder from your flake:
-  # xdg.configFile."nvim/init.lua".source = lib.mkForce false;
-  xdg.configFile."nvim".source = ./dotfiles/nvim;
+  xdg.configFile."nvim/init.lua".enable = lib.mkForce false;
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nixos/home/dotfiles/nvim";
+  # xdg.configFile."nvim".source = ./dotfiles/nvim;
 }
