@@ -187,9 +187,12 @@
     enable = true;
     # Optional: add extra libraries here if the binary complains about missing .so files
     libraries = with pkgs; [
-      stdenv.cc.cc
-      zlib
-      openssl
+      dbus # Provides libdbus-1.so.3
+      stdenv.cc.cc # Provides libstdc++.so.6 / libgcc_s.so.1
+      zlib # Provides libz.so.1
+      openssl # Provides libcrypto.so / libssl.so
+      glib # Provides libglib-2.0.so
+      curl # Provides libcurl.so
     ];
   };
 

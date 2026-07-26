@@ -6,6 +6,10 @@
     ./tools.nix
     ./neovim.nix
   ];
+  home.sessionPath = [
+    "/home/pops/.local/bin"
+
+  ];
 
   # Home Manager requirements
   home.username = "pops";
