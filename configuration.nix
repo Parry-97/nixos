@@ -183,6 +183,16 @@
     monaspace
   ];
 
+  programs.nix-ld = {
+    enable = true;
+    # Optional: add extra libraries here if the binary complains about missing .so files
+    libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+      openssl
+    ];
+  };
+
   programs.nh = {
     enable = true;
     flake = "/home/pops/.config/nixos"; # Path to your flake directory
