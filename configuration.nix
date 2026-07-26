@@ -2,20 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -90,14 +96,17 @@
   users.users."pops" = {
     isNormalUser = true;
     description = "pops";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
   # home-manager.useGlobalPkgs = true;
-  # home-manager.users.pops = import ./home 
+  # home-manager.users.pops = import ./home
   # { pkgs, ... }: {
   #   # home.packages = [ pkgs.fzf pkgs.zoxide ];
   #   # programs.bash.enable = true;
@@ -148,10 +157,13 @@
     fastfetch
     brave
     xclip
+    # gitbutler
+    jujutsu
     # nh
     nvd
     nix-output-monitor
     tmux
+    sioyek
     # fzf
     # zoxide
     eza
@@ -160,25 +172,25 @@
     xh
     starship
     zip
-    unzip  
+    unzip
     fd
-#  wget
+    #  wget
   ];
 
   fonts.packages = with pkgs; [
-   # nerd-fonts.jetbrains-mono
-   nerd-fonts.symbols-only  # Essential for icon rendering
-   monaspace
+    # nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only # Essential for icon rendering
+    monaspace
   ];
 
   programs.nh = {
-   enable = true;
-   flake = "/home/pops/.config/nixos"; # Path to your flake directory
+    enable = true;
+    flake = "/home/pops/.config/nixos"; # Path to your flake directory
   };
 
   programs.neovim = {
-   enable = true;
-   defaultEditor = true;
+    enable = true;
+    defaultEditor = true;
   };
 
   # Enable emacs
@@ -186,7 +198,7 @@
     enable = true;
     # defaultEditor = true;
     # Use emacs-gtk or emacs-pgtk as needed
-    package = pkgs.emacs-gtk; 
+    package = pkgs.emacs-gtk;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
