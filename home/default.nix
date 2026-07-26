@@ -4,6 +4,7 @@
   imports = [
     ./shell-profile.nix
     ./tools.nix
+    ./neovim.nix
   ];
 
   # Home Manager requirements
