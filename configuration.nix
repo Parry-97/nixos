@@ -159,6 +159,7 @@
     pass
     gnupg
     devenv
+    opencode
     # gitbutler
     jujutsu
     # nh
