@@ -18,10 +18,19 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+
+    substituters = [
+      "https://cache.nixos-cuda.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+    ];
+  };
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -56,6 +65,28 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  hardware.graphics.enable = true;
+
+  # Nvidia Configuration
+  services.xserver.videoDrivers = [
+    # "modesetting"
+    "nvidia"
+  ];
+  hardware.nvidia = {
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+    modesetting.enable = true;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      intelBusId = "PCI:0@0:2:0";
+      nvidiaBusId = "PCI:1@0:0:0";
+    };
+    # amdgpuBusId = "PCI:5@0:0:0"; # If you have an AMD iGPU
+  };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -104,38 +135,6 @@
       #  thunderbird
     ];
   };
-
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.users.pops = import ./home
-  # { pkgs, ... }: {
-  #   # home.packages = [ pkgs.fzf pkgs.zoxide ];
-  #   # programs.bash.enable = true;
-  #   programs.fzf.enable = true;
-  #   programs.zoxide.enable = true;
-  #   programs.bat.enable = true;
-  #   programs.atuin.enable = true;
-  #   programs.lazygit.enable = true;
-  #   programs.eza.enable = true;
-  #
-  #   programs.bash.shellAliases = {
-  #     ls = "${pkgs.eza}/bin/eza --icons always";
-  #     lg = "${pkgs.lazygit}/bin/lazygit";
-  #     l = "${pkgs.eza}/bin/eza -lah --icons always";
-  #     ll = "${pkgs.eza}/bin/eza -l --icons always";
-  #     la = "${pkgs.eza}/bin/eza -a --icons always";
-  #     lt = "${pkgs.eza}/bin/eza --tree --icons always";
-  #     lla = "${pkgs.eza}/bin/eza -la --icons always";
-  #   };
-  #
-  #
-  #   programs.zoxide.enableBashIntegration= true;
-  #   programs.fzf.enableBashIntegration= true;
-  #   programs.zoxide.enableNushellIntegration= true;
-  #
-  #   # The state version is required and should stay at the version you
-  #   # originally installed.
-  #   home.stateVersion = "26.05";
-  # };
 
   # Install firefox.
   programs.firefox.enable = true;
