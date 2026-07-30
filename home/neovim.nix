@@ -38,6 +38,8 @@
       gopls # Go LSP
       markdownlint-cli2
       markdown-toc
+      yaml-language-server
+      tombi
       # vscode-langservers-extracted # HTML/CSS/JSON LSPs
       # tailwindcss-language-server
 
