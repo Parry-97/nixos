@@ -37,6 +37,7 @@
       pyright # Python LSP
       gopls # Go LSP
       markdownlint-cli2
+      vscode-json-languageserver
       markdown-toc
       yaml-language-server
       tombi
