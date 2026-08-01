@@ -35,6 +35,7 @@
       lua-language-server # Lua LSP
       rust-analyzer # Rust LSP
       pyright # Python LSP
+      ruff
       gopls # Go LSP
       markdownlint-cli2
       vscode-json-languageserver
