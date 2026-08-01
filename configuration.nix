@@ -183,6 +183,7 @@
     fd
     tuicr
     #  wget
+    telegram-desktop
   ];
 
   fonts.packages = with pkgs; [
