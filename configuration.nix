@@ -23,6 +23,10 @@
       "nix-command"
       "flakes"
     ];
+    trusted-users = [
+      "root"
+      "pops"
+    ];
 
     substituters = [
       "https://cache.nixos-cuda.org"
@@ -177,6 +181,7 @@
     zip
     unzip
     fd
+    tuicr
     #  wget
   ];
 
