@@ -71,6 +71,26 @@
   services.xserver.enable = true;
 
   hardware.graphics.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
+  virtualisation.docker = {
+    # Consider disabling the system wide Docker daemon
+    enable = false;
+
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+      # Optionally customize rootless Docker daemon settings
+      daemon.settings = {
+        data-root = "${config.users.users."pops".home}/.local/docker";
+        dns = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+        registry-mirrors = [ "https://mirror.gcr.io" ];
+        features.cdi = true;
+      };
+    };
+  };
 
   # Nvidia Configuration
   services.xserver.videoDrivers = [
@@ -131,6 +151,19 @@
   users.users."pops" = {
     isNormalUser = true;
     description = "pops";
+    linger = true;
+    subUidRanges = [
+      {
+        startUid = 100000;
+        count = 65536;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 100000;
+        count = 65536;
+      }
+    ];
     extraGroups = [
       "networkmanager"
       "wheel"
