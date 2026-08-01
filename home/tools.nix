@@ -14,4 +14,5 @@
 
   programs.bat.enable = true;
   programs.atuin.enable = true;
+  programs.atuin.flags = [ "--disable-ctrl-r" ];
 }
