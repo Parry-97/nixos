@@ -166,6 +166,7 @@
     opencode
     # gitbutler
     jujutsu
+    gnumake
     # nh
     nvd
     nix-output-monitor
@@ -184,12 +185,15 @@
     tuicr
     #  wget
     telegram-desktop
+    obsidian
   ];
 
   fonts.packages = with pkgs; [
     # nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only # Essential for icon rendering
     monaspace
+    nunito
+    (google-fonts.override { fonts = [ "Spectral" ]; })
   ];
 
   programs.nix-ld = {
