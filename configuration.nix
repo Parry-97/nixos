@@ -300,6 +300,17 @@
     "--write-kubeconfig-mode 0644"
     # "--debug" # Optionally add additional args to k3s
   ];
+  services.k3s.containerdConfigTemplate = ''
+    {{ template "base" . }}
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+      privileged_without_host_devices = false
+      runtime_engine = ""
+      runtime_root = ""
+      runtime_type = "io.containerd.runc.v2"
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+      BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
+  '';
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
