@@ -12,6 +12,8 @@
 
   ];
 
+  home.sessionVariables.KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
+
   # Home Manager requirements
   home.username = "pops";
   home.homeDirectory = "/home/pops";
