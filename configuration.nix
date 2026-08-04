@@ -200,6 +200,8 @@
     # gitbutler
     jujutsu
     gnumake
+    kubernetes-helm
+    dust
     # nh
     nvd
     nix-output-monitor
