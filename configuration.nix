@@ -313,6 +313,7 @@
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
       BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
   '';
+  systemd.services.k3s.wantedBy = lib.mkForce [ ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
