@@ -167,6 +167,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "kvm" # required by docker-sbx microVMs
     ];
     packages = with pkgs; [
       #  thunderbird
@@ -183,6 +184,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    docker-sbx
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
     ghostty
