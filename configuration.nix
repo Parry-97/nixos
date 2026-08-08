@@ -182,16 +182,17 @@
   nixpkgs.config.allowUnfree = true;
 
   # Pin docker-sbx newer than nixpkgs' locked version. v0.34.0 fails to create
-  # sandboxes on current templates ("plugin block not found"); 0.37.0 matches
-  # the daemon to current template images. Bump when nixpkgs catches up, then
-  # drop this overlay.
+  # sandboxes on current templates ("plugin block not found"); 0.37.0 fixed
+  # that but only shipped the intermediate kit-spec v2 grammar. 0.38.0 carries
+  # the strict v2 grammar (permissions/setup/agentInstructions) used by our
+  # kits. Bump when nixpkgs catches up, then drop this overlay.
   nixpkgs.overlays = [
     (final: prev: {
       docker-sbx = prev.docker-sbx.overrideAttrs (old: {
-        version = "0.37.0";
+        version = "0.38.0";
         src = final.fetchurl {
-          url = "https://github.com/docker/sbx-releases/releases/download/v0.37.0/DockerSandboxes-linux-amd64.tar.gz";
-          hash = "sha256-dwq/f5GxOrqGzHu31Ui44HyBLVoQkyGQXnt9oK0H2Zg=";
+          url = "https://github.com/docker/sbx-releases/releases/download/v0.38.0/DockerSandboxes-linux-amd64.tar.gz";
+          hash = "sha256-nrzqgx1NJw4lrhd3vxXiR1ar+/h5GtJylHVGgoOO0As=";
         };
       });
     })

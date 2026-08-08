@@ -1,0 +1,49 @@
+schemaVersion: "2"
+kind: sandbox
+name: pi
+version: "1.0.0"
+displayName: Pi Coding Agent (OpenCode Go)
+description: |
+  Runs the Pi coding agent (@earendil-works/pi-coding-agent) inside a Docker
+  sandbox, authenticating to the OpenCode Go provider via the shared
+  opencode-go credential (proxy-managed — never enters the sandbox). Egress
+  is locked to the npm registry (install) and opencode.ai (inference).
+sourceURL: https://github.com/earendil-works/pi
+
+sandbox:
+  image: docker/sandbox-templates:shell-docker
+  entrypoint: [pi]
+
+permissions:
+  network:
+    allow:
+      - registry.npmjs.org
+      - "*.npmjs.org"
+      - opencode.ai
+      - "*.opencode.ai"
+
+credentials:
+  - service: opencode-go
+    description: OpenCode Go subscription API key (shared with the opencode kit)
+    apiKey:
+      name: OPENCODE_API_KEY
+      proxyManaged: true
+      inject:
+        - domain: opencode.ai
+          header: Authorization
+          format: "Bearer %s"
+
+environment:
+  variables:
+    PI_SKIP_VERSION_CHECK: "1"
+    PI_TELEMETRY: "0"
+
+setup:
+  install:
+    - command: "npm config set proxy $HTTP_PROXY && npm config set https-proxy $HTTP_PROXY && i=0; while [ $i -lt 5 ]; do npm install -g --maxsockets=1 --fetch-timeout=600000 @earendil-works/pi-coding-agent && break; i=$((i+1)); echo \"Retrying ($i/5)...\"; done"
+      user: "1000"
+      description: Configure npm proxy and install pi globally (with retries)
+  startup:
+    - command: ["sh", "-c", "mkdir -p ~/.pi/agent/sessions"]
+      user: "1000"
+      description: Ensure Pi session storage directory exists
