@@ -6,6 +6,7 @@
     ./tools.nix
     ./neovim.nix
     ./opencode.nix
+    ./sbx.nix
   ];
   home.sessionPath = [
     "/home/pops/.local/bin"

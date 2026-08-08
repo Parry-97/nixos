@@ -1,0 +1,83 @@
+schemaVersion: "1"
+kind: mixin
+name: opencode-go
+displayName: OpenCode Go + context7 + Exa (unauthenticated)
+description: |
+  Wires the OpenCode Go subscription with the context7 MCP server and Exa
+  web search, both unauthenticated. OPENCODE_API_KEY is proxy-managed (never
+  enters the sandbox as a real value). Feature flags enable Exa search and
+  the experimental LSP tool. Network is locked to the three endpoints this
+  workflow needs. The context7 remote MCP is auto-configured via
+  commands.initFiles.
+
+environment:
+  variables:
+    OPENCODE_ENABLE_EXA: "1"
+    OPENCODE_WEBSEARCH_PROVIDER: "exa"
+    OPENCODE_EXPERIMENTAL_LSP_TOOL: "1"
+  proxyManaged:
+    - OPENCODE_API_KEY
+
+network:
+  serviceDomains:
+    opencode.ai: opencode-go
+  serviceAuth:
+    opencode-go:
+      headerName: Authorization
+      valueFormat: "Bearer %s"
+  allowedDomains:
+    - "opencode.ai:443"
+    - "mcp.context7.com:443"
+    - "mcp.exa.ai:443"
+
+credentials:
+  sources:
+    opencode-go:
+      env:
+        - OPENCODE_API_KEY
+
+commands:
+  initFiles:
+    - path: /home/agent/.config/opencode/opencode.json
+      mode: "0644"
+      description: Auto-configure context7 remote MCP server (unauthenticated)
+      content: |
+        {
+          "$schema": "https://opencode.ai/config.json",
+          "mcp": {
+            "context7": {
+              "type": "remote",
+              "url": "https://mcp.context7.com/mcp",
+              "enabled": true
+            }
+          }
+        }
+
+agentContext: |
+  ## OpenCode Go subscription + context7 + Exa (unauthenticated)
+
+  You are running inside a Docker sandbox with the following configuration:
+
+  - **Inference**: OpenCode Go subscription at `https://opencode.ai/zen/go/v1`.
+    The `OPENCODE_API_KEY` is proxy-managed — it never enters the sandbox as a
+    real value; the proxy injects it as `Authorization: Bearer <key>` on
+    outbound requests to `opencode.ai`. Select models with the
+    `opencode-go/<model-id>` prefix (e.g. `opencode-go/glm-5.2`).
+
+  - **context7 MCP**: auto-configured as a remote server at
+    `https://mcp.context7.com/mcp` (unauthenticated — no API key). Use it for
+    up-to-date library documentation. Add `use context7` to prompts to invoke
+    it, or add a rule to AGENTS.md: "When you need docs, use context7 tools."
+
+  - **Exa web search**: enabled (`OPENCODE_WEBSEARCH_PROVIDER=exa`). The
+    `websearch` tool calls `https://mcp.exa.ai/mcp` (unauthenticated,
+    rate-limited). No `EXA_API_KEY` is set — if you hit rate limits, register
+    one on the host with `sbx secret set-custom`.
+
+  - **LSP tool**: the experimental LSP tool is enabled
+    (`OPENCODE_EXPERIMENTAL_LSP_TOOL=1`).
+
+  - **Network**: egress is locked to `opencode.ai`, `mcp.context7.com`, and
+    `mcp.exa.ai`. The `webfetch` tool will fail for any other domain. If a
+    project needs public package registries or git hosting, the host operator
+    can run `sbx-policy-allow-code` to globally add github + npm + pypi.

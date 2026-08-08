@@ -181,6 +181,22 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Pin docker-sbx newer than nixpkgs' locked version. v0.34.0 fails to create
+  # sandboxes on current templates ("plugin block not found"); 0.37.0 matches
+  # the daemon to current template images. Bump when nixpkgs catches up, then
+  # drop this overlay.
+  nixpkgs.overlays = [
+    (final: prev: {
+      docker-sbx = prev.docker-sbx.overrideAttrs (old: {
+        version = "0.37.0";
+        src = final.fetchurl {
+          url = "https://github.com/docker/sbx-releases/releases/download/v0.37.0/DockerSandboxes-linux-amd64.tar.gz";
+          hash = "sha256-dwq/f5GxOrqGzHu31Ui44HyBLVoQkyGQXnt9oK0H2Zg=";
+        };
+      });
+    })
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
