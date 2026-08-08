@@ -6,6 +6,7 @@
     ./tools.nix
     ./neovim.nix
     ./opencode.nix
+    ./ghostty.nix
     ./sbx.nix
   ];
   home.sessionPath = [
