@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   programs.bash = {
@@ -18,7 +18,7 @@
         local files
         files=$(${pkgs.fd}/bin/fd --type f --hidden --exclude .git --exclude node_modules \
           | ${pkgs.fzf}/bin/fzf --multi --preview '${pkgs.bat}/bin/bat --color=always --style=numbers --line-range :300 {}')
-        [[ -n "$files" ]] && ${pkgs.neovim}/bin/nvim $files
+        [[ -n "$files" ]] &&  ${config.programs.neovim.finalPackage}/bin/nvim $files
       }
     '';
   };
