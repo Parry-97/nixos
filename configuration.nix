@@ -195,7 +195,23 @@
           hash = "sha256-nrzqgx1NJw4lrhd3vxXiR1ar+/h5GtJylHVGgoOO0As=";
         };
       });
+      # NVIDIA + Wayland + Qt6 cannot create EGL contexts (EGL_BAD_MATCH 3009),
+      # which breaks rendering and the file picker. Force xcb + GLX (see
+      # NixOS/nixpkgs#417301).
+      sioyek = prev.sioyek.overrideAttrs (old: {
+        qtWrapperArgs = (old.qtWrapperArgs or [ ]) ++ [
+          "--set QT_QPA_PLATFORM xcb"
+          "--set QT_XCB_GL_INTEGRATION xcb_glx"
+        ];
+      });
     })
+  ];
+
+  # Expose gtk3's gsettings schemas so the GTK3 file chooser used by Qt apps
+  # (e.g. sioyek's `o` dialog) can read org.gtk.Settings.FileChooser instead
+  # of aborting on a missing schema.
+  environment.sessionVariables.XDG_DATA_DIRS = [
+    "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
   ];
 
   # List packages installed in system profile. To search, run:

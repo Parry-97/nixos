@@ -15,6 +15,15 @@ return {
               formatting = {
                 command = { "nixfmt" },
               },
+              options = {
+                nixos = {
+                  expr = '(builtins.getFlake "/home/pops/.config/nixos").nixosConfigurations.nixos.options',
+                },
+
+                home_manager = {
+                  expr = '(builtins.getFlake "/home/pops/.config/nixos").homeConfigurations.pops.options',
+                },
+              },
             },
           },
         },
