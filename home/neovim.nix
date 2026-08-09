@@ -37,6 +37,8 @@
       pyright # Python LSP
       ruff
       gopls # Go LSP
+      go
+      golangci-lint
       markdownlint-cli2
       vscode-json-languageserver
       markdown-toc
