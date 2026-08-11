@@ -161,8 +161,12 @@
           settingsPanelMode = "attached";
           tooltipsEnabled = true;
         };
+        colorSchemes = {
+          darkMode = true;
+          predefinedScheme = "Ayu";
+        };
         wallpaper = {
-          enabled = false;
+          enabled = true;
         };
       };
     };
