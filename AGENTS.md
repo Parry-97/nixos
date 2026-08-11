@@ -15,28 +15,40 @@ Home Manager is intentionally NOT a NixOS module — do not wire them together.
 | Home (user) | `nh home switch` |
 | Bump inputs | `nix flake update` then both commands above |
 
-`nh` is configured (`configuration.nix`) with `flake = "/home/pops/.config/nixos"`,
-so both `nh os switch` and `nh home switch` work from any directory (home
-resolves `homeConfigurations.pops` from the current user; `home-manager switch
---flake .#pops` is equivalent). Targets are `.#nixos` and `.#pops`.
+`nh` is configured (`modules/hosts/nvidiaMachine/configuration.nix`) with
+`flake = "/home/pops/.config/nixos"`, so both `nh os switch` and `nh home switch`
+work from any directory (home resolves `homeConfigurations.pops` from the
+current user; `home-manager switch --flake .#pops` is equivalent). Targets are
+`.#nixos` and `.#pops`.
 
 There is no test/lint/typecheck suite. Verify edits with:
 
 ```bash
-nix flake check                          # schema / eval checks
-nix build .#nixosConfigurations.nixos     # full system build (slow)
-nix build .#homeConfigurations.pops       # home build
+nix flake check                                                # schema / eval checks
+nix build .#nixosConfigurations.nixos.config.system.build.toplevel  # full system build (slow)
+home-manager build --flake .#pops                             # home build
 ```
+
+Note: `nix build .#nixosConfigurations.nixos` and `nix build
+.#homeConfigurations.pops` do NOT work — those outputs are module-system
+results, not derivations (`error: '...type' is not a string but a set`). Use the
+toplevel path above for the system and `home-manager`/`nh` for the home build.
 
 Nix formatting: `nixfmt` (used by the `nixd` LSP in this repo). Format `.nix`
 files with `nixfmt <file>` before committing.
 
 ## File ownership
 
-- `flake.nix` — inputs + both outputs. Evaled by both targets.
-- `configuration.nix` — system-level (kernel, drivers, services, packages).
-- `hardware-configuration.nix` — **machine-generated** by
-  `nixos-generate-config`; contains filesystem UUIDs and bus IDs. Do not
+- `flake.nix` — inputs; outputs are wired via `flake-parts` + `import-tree`
+  through `modules/`. Evaled by both targets.
+- `modules/` — flake-parts modules, auto-imported recursively. New outputs/
+  modules go here: `parts.nix` (systems + home-manager flakeModule),
+  `features/` (reusable features: niri, noctalia, home-manager),
+  `hosts/nvidiaMachine/` (this machine).
+- `modules/hosts/nvidiaMachine/configuration.nix` — system-level (kernel,
+  drivers, services, packages); the `nvidiaMachineConfiguration` NixOS module.
+- `modules/hosts/nvidiaMachine/hardware.nix` — the `nvidiaMachineHardware`
+  module; **machine-generated** content (filesystem UUIDs, bus IDs). Do not
   hand-edit unless changing hardware; do not copy into another machine's repo.
 - `home/default.nix` — Home Manager entrypoint; imports the other `home/*.nix`
   modules. Add new user-facing modules here.
