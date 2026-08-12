@@ -1,0 +1,147 @@
+{
+  "flake": {
+    "prefix": "flake",
+    "body": [
+      "{",
+      "  description = \"$1\";",
+      "",
+      "  inputs = {",
+      "    nixpkgs.url = \"github:NixOS/nixpkgs/nixos-unstable\";",
+      "  };",
+      "",
+      "  outputs = { self, nixpkgs, ... }: let",
+      "    system = \"x86_64-linux\";",
+      "    pkgs = nixpkgs.legacyPackages.${system};",
+      "  in {",
+      "    $0",
+      "  };",
+      "}"
+    ],
+    "description": "Minimal flake template"
+  },
+  "devShell": {
+    "prefix": "devShell",
+    "body": [
+      "devShells.${system}.default = pkgs.mkShell {",
+      "  buildInputs = [",
+      "    $1",
+      "  ];",
+      "",
+      "  shellHook = ''",
+      "    $0",
+      "  '';",
+      "};"
+    ],
+    "description": "devShells.<system>.default = pkgs.mkShell { ... }"
+  },
+  "mkShell": {
+    "prefix": "mkShell",
+    "body": [
+      "pkgs.mkShell {",
+      "  buildInputs = [",
+      "    $1",
+      "  ];",
+      "$0",
+      "}"
+    ],
+    "description": "pkgs.mkShell { ... }"
+  },
+  "nixosModule": {
+    "prefix": "nixosModule",
+    "body": [
+      "{ lib, pkgs, config, ... }:",
+      "{",
+      "  options = {",
+      "    $1 = {",
+      "      enable = lib.mkEnableOption \"$2\";",
+      "    };",
+      "  };",
+      "",
+      "  config = lib.mkIf config.$1.enable {",
+      "    $3",
+      "  };",
+      "$0",
+      "}"
+    ],
+    "description": "NixOS module skeleton (options + config)"
+  },
+  "hmModule": {
+    "prefix": "hmModule",
+    "body": [
+      "{ lib, pkgs, config, ... }:",
+      "{",
+      "  options = {",
+      "    $1 = {",
+      "      enable = lib.mkEnableOption \"$2\";",
+      "    };",
+      "  };",
+      "",
+      "  config = lib.mkIf config.$1.enable {",
+      "    $3",
+      "  };",
+      "$0",
+      "}"
+    ],
+    "description": "Home-manager module skeleton"
+  },
+  "nixosConfigurations": {
+    "prefix": "nixosConfigurations",
+    "body": [
+      "nixosConfigurations.$1 = nixpkgs.lib.nixosSystem {",
+      "  system = \"x86_64-linux\";",
+      "  modules = [",
+      "    $2",
+      "  ];",
+      "};"
+    ],
+    "description": "nixosConfigurations.<name> = nixpkgs.lib.nixosSystem { ... }"
+  },
+  "homeConfiguration": {
+    "prefix": "homeConfiguration",
+    "body": [
+      "homeConfigurations.$1 = home-manager.lib.homeManagerConfiguration {",
+      "  pkgs = nixpkgs.legacyPackages.x86_64-linux;",
+      "  modules = [",
+      "    $2",
+      "  ];",
+      "};"
+    ],
+    "description": "homeConfigurations.<name> = home-manager.lib.homeManagerConfiguration { ... }"
+  },
+  "shellHook": {
+    "prefix": "shellHook",
+    "body": [
+      "shellHook = ''",
+      "  $0",
+      "'';"
+    ],
+    "description": "shellHook = '' ... '';"
+  },
+  "mkIf": {
+    "prefix": "mkIf",
+    "body": [
+      "lib.mkIf ${1:condition} {",
+      "  $0",
+      "}"
+    ],
+    "description": "lib.mkIf <condition> { ... }"
+  },
+  "mkOption": {
+    "prefix": "mkOption",
+    "body": [
+      "$1 = lib.mkOption {",
+      "  type = lib.types.${2:str};",
+      "  default = $3;",
+      "  description = \"$4\";",
+      "};"
+    ],
+    "description": "lib.mkOption { type = ...; default = ...; description = ...; }"
+  },
+  "legacyPackages": {
+    "prefix": "pkgsOf",
+    "body": [
+      "pkgs = nixpkgs.legacyPackages.${1:system};"
+    ],
+    "description": "pkgs = nixpkgs.legacyPackages.<system>;"
+  }
+}

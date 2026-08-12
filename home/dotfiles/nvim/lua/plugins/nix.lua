@@ -15,6 +15,9 @@ return {
               formatting = {
                 command = { "nixfmt" },
               },
+              nixpkgs = {
+                expr = "import <nixpkgs> { }",
+              },
               options = {
                 nixos = {
                   expr = '(builtins.getFlake "/home/pops/.config/nixos").nixosConfigurations.nixos.options',
@@ -27,7 +30,6 @@ return {
             },
           },
         },
-        lua_ls = {},
       },
     },
   },
