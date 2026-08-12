@@ -90,7 +90,7 @@
             "Alt+F".maximize-column = _: { };
             "Alt+Shift+F".fullscreen-window = _: { };
             "Alt+M".maximize-window-to-edges = _: { };
-            "Alt+V".toggle-window-floating = _: { };
+            # "Alt+V".toggle-window-floating = _: { };
             "Alt+Shift+V".switch-focus-between-floating-and-tiling = _: { };
             "Alt+C".center-column = _: { };
             "Alt+BracketLeft".consume-or-expel-window-left = _: { };

@@ -8,6 +8,11 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        mojo = {
+          cmd = { "mojo-lsp-server" },
+          filetypes = { "mojo" },
+          root_markers = { ".git" },
+        },
         nixd = {
           cmd = { "nixd" },
           settings = {
