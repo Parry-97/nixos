@@ -9,7 +9,7 @@
           position = "center";
           showCategories = true;
           sortByMostUsed = true;
-          terminalCommand = "ghostty -e";
+          terminalCommand = "nvidia-offload ghostty -e";
           viewMode = "list";
         };
         audio = {

@@ -47,7 +47,7 @@
           screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
           binds = {
-            "Alt+Return".spawn-sh = lib.getExe pkgs.ghostty;
+            "Alt+Return".spawn-sh = "nvidia-offload ${lib.getExe pkgs.ghostty}";
             "Alt+Q".close-window = _: { };
             "Alt+S".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
 
