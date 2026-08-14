@@ -101,6 +101,7 @@
         open = false;
         package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
         modesetting.enable = true;
+        powerManagement.enable = true;
         prime = {
           offload = {
             enable = true;
