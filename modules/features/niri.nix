@@ -40,7 +40,15 @@
 
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
 
-          input.keyboard.xkb.layout = "us,it";
+          input = {
+            keyboard.xkb.layout = "us,it";
+            touchpad = {
+              tap = _: { };
+              dwt = _: { };
+              natural-scroll = _: { };
+              click-method = "clickfinger";
+            };
+          };
 
           layout.gaps = 5;
 
