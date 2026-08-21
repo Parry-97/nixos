@@ -1,0 +1,80 @@
+{
+  "moj.fn": {
+    "prefix": "moj.fn",
+    "body": ["fn ${1:name}($2) -> ${3:Int}:", "    $0"],
+    "description": "fn name(args) -> T: ..."
+  },
+  "moj.def": {
+    "prefix": "moj.def",
+    "body": ["def ${1:name}($2)${3:: ${4:Int}}:", "    return $0"],
+    "description": "def name(args): ..."
+  },
+  "moj.defraises": {
+    "prefix": "moj.defraises",
+    "body": ["def ${1:name}($2)${3:: ${4:Int}} raises:", "    $0"],
+    "description": "def name(args) raises: ..."
+  },
+  "moj.struct": {
+    "prefix": "moj.struct",
+    "body": ["struct ${1:Name}:", "    $0"],
+    "description": "struct Name: ..."
+  },
+  "moj.struct_fieldwise": {
+    "prefix": "moj.struct_fieldwise",
+    "body": ["@fieldwise_init", "struct ${1:Name}:", "    ${2:field}: ${3:Int}", "    $0"],
+    "description": "@fieldwise_init struct with field"
+  },
+  "moj.trait": {
+    "prefix": "moj.trait",
+    "body": ["trait ${1:Name}:", "    def ${2:method}(self${3:, x: ${4:Int}}): ...", "    $0"],
+    "description": "trait Name: ..."
+  },
+  "moj.var": {
+    "prefix": "moj.var",
+    "body": ["var ${1:name} = ${2:value}"],
+    "description": "var name = value"
+  },
+  "moj.fnparam": {
+    "prefix": "moj.fnparam",
+    "body": ["${1:name}: ${2:Int}"],
+    "description": "function parameter: name: Type"
+  },
+  "moj.param": {
+    "prefix": "moj.param",
+    "body": ["@parameter", "fn ${1:name}(${2:x}: ${3:Int})[${4:count}: ${5:Int}]:", "    $0"],
+    "description": "compile-time @parameter fn"
+  },
+  "moj.for": {
+    "prefix": "moj.for",
+    "body": ["for ${1:i} in range(${2:n}):", "    $0"],
+    "description": "for i in range(n): ..."
+  },
+  "moj.test": {
+    "prefix": "moj.test",
+    "body": [
+      "from std.testing import assert_equal, TestSuite",
+      "",
+      "def ${1:test_name}() raises:",
+      "    assert_equal(${2:actual}, ${3:expected})",
+      "",
+      "def main() raises:",
+      "    TestSuite.discover_tests[__functions_in_module()]().run()"
+    ],
+    "description": "Mojo TestSuite test"
+  },
+  "moj.main": {
+    "prefix": "moj.main",
+    "body": ["def main() raises:", "    $0"],
+    "description": "def main() raises: ..."
+  },
+  "moj.print": {
+    "prefix": "moj.print",
+    "body": ["print($0)"],
+    "description": "print(...)"
+  },
+  "moj.if": {
+    "prefix": "moj.if",
+    "body": ["if ${1:cond}:", "    $0"],
+    "description": "if cond: ..."
+  }
+}
