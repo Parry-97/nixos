@@ -258,6 +258,7 @@
         #  wget
         telegram-desktop
         obsidian
+        spotify
       ];
 
       fonts.packages = with pkgs; [
