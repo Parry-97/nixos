@@ -177,7 +177,6 @@
 
       # Install firefox.
       programs.firefox.enable = true;
-      programs.starship.enable = true;
 
       # Allow unfree packages
       nixpkgs.config.allowUnfree = true;
@@ -241,6 +240,7 @@
         # nh
         nvd
         nix-output-monitor
+        nixfmt
         tmux
         sioyek
         # fzf
@@ -249,7 +249,6 @@
         ripgrep
         lazygit
         xh
-        starship
         zip
         unzip
         fd

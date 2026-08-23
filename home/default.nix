@@ -8,6 +8,7 @@
     ./opencode.nix
     ./ghostty.nix
     ./sbx.nix
+    ./nushell.nix
   ];
   home.sessionPath = [
     "/home/pops/.local/bin"
