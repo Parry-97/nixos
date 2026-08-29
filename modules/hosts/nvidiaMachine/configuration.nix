@@ -10,6 +10,7 @@
 
     {
       imports = [
+        inputs.determinate.nixosModules.default
         self.nixosModules.nvidiaMachineHardware
         self.nixosModules.niri
       ];
