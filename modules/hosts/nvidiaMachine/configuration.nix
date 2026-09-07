@@ -234,6 +234,8 @@
         gnupg
         devenv
         opencode
+        attic-client
+        openssl
         # gitbutler
         jujutsu
         gnumake
@@ -352,6 +354,30 @@
           BinaryName = "${pkgs.nvidia-container-toolkit.tools}/bin/nvidia-container-runtime.cdi"
       '';
       systemd.services.k3s.wantedBy = lib.mkForce [ ];
+
+      services.atticd = {
+        enable = true;
+        settings.listen = "127.0.0.1:8081";
+        environmentFile = "/root/.attic-env-file"; # quoted — see review finding #1
+      };
+
+      services.caddy = {
+        enable = true;
+        virtualHosts = {
+          # Plain HTTP on purpose: ACME can't issue certs for non-public
+          # domains, and Nix is fine with HTTP caches.
+          "http://cache.local" = {
+            extraConfig = ''
+              reverse_proxy 127.0.0.1:8081
+            '';
+          };
+        };
+      };
+
+      # .local is mDNS territory; pin the name to loopback explicitly.
+      networking.hosts = {
+        "127.0.0.1" = [ "cache.local" ];
+      };
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;
 
