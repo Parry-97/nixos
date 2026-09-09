@@ -31,9 +31,13 @@
 
         substituters = [
           "https://cache.nixos-cuda.org"
+          "https://cache.nixos.org"
+          "http://cache.local:8081/main"
         ];
         trusted-public-keys = [
           "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+          "main:6R3TI9hx17oOlu4bLoaSk/r8ISBRNZET8jeIQ+Y0IhQ="
         ];
       };
 
