@@ -5,6 +5,7 @@
     ./shell-profile.nix
     ./tools.nix
     ./neovim.nix
+    ./tmux.nix
     ./opencode.nix
     ./ghostty.nix
     ./sbx.nix

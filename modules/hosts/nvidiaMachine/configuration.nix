@@ -1,4 +1,9 @@
-{ self, inputs, ... }: {
+{
+  self,
+  inputs,
+  ...
+}:
+{
 
   flake.nixosModules.nvidiaMachineConfiguration =
     {
@@ -92,7 +97,9 @@
               "1.1.1.1"
               "8.8.8.8"
             ];
-            registry-mirrors = [ "https://mirror.gcr.io" ];
+            registry-mirrors = [
+              "https://mirror.gcr.io"
+            ];
             features.cdi = true;
           };
         };
@@ -264,6 +271,12 @@
         k9s
         #  wget
         telegram-desktop
+        # Electron's os_crypt backend detection only recognizes GNOME/KDE via
+        # XDG_CURRENT_DESKTOP, so on niri it falls back to basic_text ("weaker
+        # encryption" dialog). Force the libsecret backend.
+        (element-desktop.override {
+          commandLineArgs = "--password-store=gnome-libsecret";
+        })
         obsidian
         spotify
       ];
@@ -273,7 +286,11 @@
         nerd-fonts.symbols-only # Essential for icon rendering
         monaspace
         nunito
-        (google-fonts.override { fonts = [ "Spectral" ]; })
+        (google-fonts.override {
+          fonts = [
+            "Spectral"
+          ];
+        })
       ];
 
       programs.nix-ld = {
@@ -384,7 +401,9 @@
 
       # .local is mDNS territory; pin the name to loopback explicitly.
       networking.hosts = {
-        "127.0.0.1" = [ "cache.local" ];
+        "127.0.0.1" = [
+          "cache.local"
+        ];
       };
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;
