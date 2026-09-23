@@ -19,6 +19,7 @@
       show_banner = false;
       completions.external.enable = true;
       completions.external.max_results = 100;
+      edit_mode = "vi";
     };
     extraConfig = ''
       def v [] {
